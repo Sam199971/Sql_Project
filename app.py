@@ -10,10 +10,10 @@ app = Flask(__name__)
 
 #連接mssql
 
-server = 'LAPTOP-US1I0DLQ\SQLEXPRESS'
+server = 'LAPTOP-5GRQ8RBR\SQLEXPRESS'
 database = 'SQL_Class'
 username = 'sa'
-password = 'f129960349'
+password = 'micky5630'
 cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
 
 
