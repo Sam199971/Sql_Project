@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Search{% endblock %}</title>
+</head>
+<body>
+
+
+<form method="POST" >
+    <input type="date" name="bday" id="searchDate">
+
+
+    <select name = 'sel'>
+        {% for type in types %}
+            <option>{{ type.sType }}</option>
+        {% endfor %}
+    </select>
+
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<div>{{ date }}  {{ sel }}</div>
+
+</body>
+</html>
