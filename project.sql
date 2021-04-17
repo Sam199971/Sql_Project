@@ -116,5 +116,10 @@ Select *
 		Where S.sType = '¤p¥]'
 
 
+Select *                                             
+		From SpaceTime as ST inner join [Space] as S
+		on ST.sId = S.[sid]
+		Where Date = '2021-04-16' and S.sId = 10
+
 
 
