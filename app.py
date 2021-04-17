@@ -24,6 +24,25 @@ cursor = sqlConn.cursor()
 #     print(row.pName)
 
 
+def FindNullSpace(date, sType):
+    cursor.execute("""Select *
+		                    From [Space] as S
+		                    Where S.sType = ?""", sType)
+    SpaceNames = cursor.fetchall()
+    print(SpaceNames)
+    for i in SpaceNames:
+        cursor.execute("""Select *
+		                        From SpaceTime as ST inner join [Space] as S
+		                        on ST.sId = S.[sid]
+		                        Where Date = ?  and S.sId = ?;""", date, int(i.sId))
+        FullSpaceTime = cursor.fetchall()
+        print(FullSpaceTime)
+
+
+
+
+
+
 @app.route('/', methods = ["GET", "POST"])
 def hello_world():
 
@@ -35,12 +54,7 @@ def hello_world():
         sType = request.form['sel']
         print(date)
         print(sType)
-
-        cursor.execute("""Select *
-		                        From SpaceTime as ST inner join [Space] as S on ST.sId = S.[sid]
-		                        Where Date = ?  and S.sType = ?""",  date , sType)
-        DateRecord = cursor.fetchall()
-        print(DateRecord)
+        FindNullSpace(date, sType)
 
         return render_template('Search.html', types=types, date = date, sel = sType)
     else:
