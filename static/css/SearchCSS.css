@@ -1,0 +1,20 @@
+@charset "UTF-8";
+table.dataTable tbody td {
+    padding: 0;
+}
+
+.tb-btn {
+    display: block;
+    width: 99%;
+    height: 30px;
+    padding: 8px 0;
+    margin: 1px auto;
+}
+
+.tb-btn-red {
+    background-color: palevioletred;
+}
+
+.tb-btn-blue {
+    background-color: cornflowerblue;
+}
