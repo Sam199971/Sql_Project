@@ -6,33 +6,98 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <script src="{{ url_for('static', filename='js/SearchJavaScripts.js') }}" type="text/javascript"></script>
-    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/SearchCSS.css') }}"/>
+    <style>
+        table.dataTable tbody td {
+            padding: 0;
+        }
 
+        .tb-btn {
+            display: block;
+            width: 99%;
+            height: 30px;
+            padding: 8px 0;
+            margin: 1px auto;
+        }
+
+        .tb-btn-red {
+            background-color: palevioletred;
+        }
+
+        .tb-btn-blue {
+            background-color: cornflowerblue;
+        }
+    </style>
 
 </head>
 <body>
 
 
-<form method="POST" >
-    <input type="date" name="date" id="searchDate">
+    <input type="date" name="date" id="SpaceDate">
 
 
-    <select name = 'sType'>
+    <select name = 'sType' id = "SpaceType">
         {% for type in Alltypes %}
             <option>{{ type.sType }}</option>
         {% endfor %}
     </select>
 
 
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+    <button type="submit" class="btn btn-primary" id = "GoSearch">Submit</button>
 
+<form method="POST" >
 <div>
-
     <table id="table"></table>
-
 </div>
+</form>
+<script>
+    $(
+        $("#GoSearch").click(function () {
 
+
+            SearchDate = $("#SpaceDate").val();
+            SearchType = $("#SpaceType").val();
+            var Searchdetail = {"date" : SearchDate, "sType" : SearchType};
+            $.ajax({
+                type: 'POST',
+                url: "/data",
+                data: JSON.stringify(Searchdetail),
+                dataType: 'json',
+                contentType: "application/json",
+            }).done(function (resp) {
+                setTable(resp)
+            })
+        })
+    );
+
+    function setTable(resp) {
+        let table = $('#table').DataTable({
+            width: 100,
+            data: resp.data,
+            searching: false,
+            destroy:true,
+            retrieve: false,
+            lengthChange: false,
+            ordering: false,
+            paging: false,
+            info: false,
+            columns: resp.columns,
+            columnDefs: [
+                {
+                    targets: [1, 2, 3],
+                    render: function (data, type, row) {
+                        let css = data ? 'tb-btn-blue' : 'tb-btn-red';
+                        return '<span class="tb-btn ' + css + '"></span>'
+                    }
+                }
+            ]
+        });
+
+
+        $('.tb-btn-blue').click(function () {
+            let data = table.row($(this).parents('tr')).data();
+            console.log(data.time)
+        })
+    }
+</script>
 </body>
 </html>

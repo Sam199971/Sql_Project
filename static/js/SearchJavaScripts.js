@@ -18,7 +18,7 @@ function setTable(data) {
         info: false,
         columns: [
             {title: "Time", data: "time"},
-            {title: "1235446", data: "a"},
+            {title: "456128", data: "a"},
             {title: "B", data: "b"},
             {title: "C", data: "c"},
         ],
