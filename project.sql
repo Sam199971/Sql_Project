@@ -144,7 +144,7 @@ Alter Table Record Add CONSTRAINT pId_tId PRIMARY KEY (pId, tId),
 */
 
 
-
+/*
 Select *
 		From [User];
 
@@ -163,4 +163,11 @@ Select *
 		From SpaceTime as ST inner join [Space] as S
 		on ST.sId = S.[sid]
 		Where Date = '2021-04-16' and S.sId = 10
+*/
+
+Delete From SpaceTime Where EndTime = '21:00:00'
+
+Select * From [Space];
+
+Select * From SpaceTime;
 
