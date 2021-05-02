@@ -104,6 +104,12 @@ Insert into SpaceTime values(11, 1, '2021-04-16', '11:00:00', '13:00:00', 2, 60)
 */
 
 
+/*新增 User 的屬性
+Alter table [User] add uAccount varchar(15); 
+Alter table [User] add uPassword varchar(15);
+*/
+
+
 /*修改值
 UPDATE [User]
 SET uAccount = 'a', uPassword = 'a'
@@ -165,9 +171,31 @@ Select *
 		Where Date = '2021-04-16' and S.sId = 10
 */
 
+
+
+/*
 Delete From SpaceTime Where EndTime = '21:00:00'
 
 Select * From [Space];
 
 Select * From SpaceTime;
+*/
 
+
+/*修改Trade
+Alter table Trade drop Column tradeTime
+
+
+Alter table Trade add sId int not null
+
+Alter table Trade add tradeDate Date
+
+Alter table Trade add tradeTime Time
+*/
+
+Select *
+From SpaceTime inner join (
+		Select uId, uName
+				From [User]
+				Where uName = 'aaa') as Q
+	on Q.uId = SpaceTime.uId

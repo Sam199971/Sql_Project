@@ -21,6 +21,7 @@
     <style>
         table.dataTable tbody td {
             padding: 0;
+            text-align: center;
         }
 
         .tb-btn {
@@ -68,34 +69,32 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
 
-                <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-                </div>
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
 
             <form method="POST" action='/purchase'>
                 <div class="modal-body">
-                    <input type="hidden" id="UserName" name="UserName" />
+                    <input type="hidden" id="UserName" name="UserName"/>
                     <p id="showUserName"></p>
 
-                    <input type="hidden" id="Date" name="Date" />
-                    <p id="showDate" name="Date" ></p>
+                    <input type="hidden" id="Date" name="Date"/>
+                    <p id="showDate" name="Date"></p>
 
-                    <input type="hidden" id="SType" name="SType" />
-                    <p id="showSType" name="SType" ></p>
+                    <input type="hidden" id="SType" name="SType"/>
+                    <p id="showSType" name="SType"></p>
 
-                    <input type="hidden" id="SName" name="SName" />
-                    <p id="showSName" name="SName" ></p>
+                    <input type="hidden" id="SName" name="SName"/>
+                    <p id="showSName" name="SName"></p>
 
-                    <input type = "hidden" id="StartTime" name="StartTime"/>
-                    <p id = "showStartTime">開始時間: </p>
+                    <input type="hidden" id="StartTime" name="StartTime"/>
+                    <p id="showStartTime">開始時間: </p>
 
                     <div>
-                        <p id = "showTotalTime">總時數</p>
+                        <p id="showTotalTime">總時數</p>
                         <select id="TotalTime" name="TotalTime">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
+
                         </select>
                     </div>
                 </div>
@@ -136,6 +135,13 @@
                     $('#table').empty()
                 }
                 setTable(resp)
+
+
+                for (var i = 0; i < 3; i++){
+                    var o = new Option(i, "value");
+                    $("#TotalTime").append(o);
+                }
+
             })
         }
     })

@@ -66,6 +66,9 @@ def FindNullSpace(date, sType):
             for timeSection in range(RecordTimesLen):
                 data[RecordStartTime + timeSection][str(s.sId)] = ''
 
+    print(columns)
+    print(data)
+
     resp_data = {
         "columns": columns,
         "data": data,
