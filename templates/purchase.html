@@ -2,9 +2,243 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title>Addional Object</title>
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 </head>
 <body>
-<div>purchase</div>
+<div align="center">
+    <div>{{uId}}</div>
+    <div>Which Space do you want to add the purchase</div>
+    <select id="sId">
+        {% for type in userLog %}
+        <option>{{ type.sId }} {{type.Date}} {{type.StartTime}}</option>
+        {% endfor %}
+    </select>
+    <button class="btn btn-primary" id="ShowTable">Confirm</button>
+
+</div>
+
+<!-- add purchase -->
+<div id="PurchaseTable" style="display: none">
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" style="width: 300px">Add thing</th>
+            <th scope="col" style="width: 250px">Type</th>
+            <th scope="col" style="width: 300px">Price</th>
+            <th scope="col">quantity</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>Dice</td>
+            <td>50 US/Per Set</td>
+            <td>
+                <input id="Dice" type='number' style="width: 50px" min="0">
+                <button type="button" onclick="Dice();">Add</button>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Beer</td>
+            <td>100 US/Per Hand</td>
+            <td>
+                <input id="Beer" name="Beer" type='number' style="width: 50px" min="0">
+                <button type="button" onclick="Beer();">Add</button>
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+    <!-- Total List -->
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" style="width: 300px">Your List</th>
+            <th scope="col" style="width: 250px">Type</th>
+            <th scope="col" style="width: 300px">Quantity</th>
+            <th scope="col" >Total Price</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr>
+            <th scope="row">1</th>
+            <td>Dice</td>
+            <td id="diceamount">0</td>
+            <td id="diceprice">0</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Beer</td>
+            <td id="beeramount">0</td>
+            <td id="beerprice">0</td>
+        </tr>
+        <tr>
+            <th></th>
+            <td></td>
+            <td></td>
+            <td id="sum">Sum of Product</td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- DataBase List -->
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col" style="width: 300px">Already Have</th>
+            <th scope="col" style="width: 250px">Type</th>
+            <th scope="col" style="width: 300px">Quantity</th>
+            <th scope="col">Total Price</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr>
+            <th scope="row">1</th>
+            <td>Dice</td>
+            <td id="DBDiceAmount">0</td>
+            <td id="DBDicePrice">0</td>
+        </tr>
+        <tr>
+            <th scope="row">2</th>
+            <td>Beer</td>
+            <td id="DBBeerAmount">0</td>
+            <td id="DBBeerPrice">0</td>
+        </tr>
+        <tr>
+            <th></th>
+            <td></td>
+            <td></td>
+            <td id="DBSum">0</td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="row justify-content-center">
+        <button class="btn btn-primary" id="DBAdd">確認購買(不接受退貨)</button>
+<!--        <a class="btn btn-primary" href="/">回首頁</a>-->
+    </div>
+</div>
+
+<script>
+    function Dice() {
+        var DiceCount = document.getElementById("Dice");
+        var totalprice = (DiceCount.value) * 50;
+        document.getElementById("diceamount").textContent = DiceCount.value;
+        document.getElementById("diceprice").textContent = totalprice;
+        const totaldiceprice = parseInt(document.getElementById("diceprice").textContent);
+        const totalbeerprice = parseInt(document.getElementById("beerprice").textContent);
+        document.getElementById("sum").textContent = String(totalbeerprice + totaldiceprice);
+    }
+
+    function Beer() {
+        var BeerCount = document.getElementById("Beer");
+        var totalprice = (BeerCount.value) * 100;
+        document.getElementById("beeramount").textContent = BeerCount.value;
+        document.getElementById("beerprice").textContent = totalprice;
+        const totaldiceprice = parseInt(document.getElementById("diceprice").textContent);
+        const totalbeerprice = parseInt(document.getElementById("beerprice").textContent);
+        document.getElementById("sum").textContent = String(totalbeerprice + totaldiceprice);
+    }
+
+    $("#ShowTable").click(
+        function () {
+            var sId = $("#sId").val();
+            var Date = $("#Date").val();
+            var StartTime = $("#StartTime").val();
+            var SpaceDetail = {"sId": sId, "Date": Date, "StartTime": StartTime};
+            document.getElementById('diceamount').textContent="0"
+            document.getElementById('diceprice').textContent="0"
+            document.getElementById('beeramount').textContent="0"
+            document.getElementById('beerprice').textContent="0"
+            document.getElementById('Dice').value="0"
+            document.getElementById('Beer').value="0"
+            document.getElementById('sum').textContent="0"
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: "/trade",
+                    data: JSON.stringify(SpaceDetail),
+                    dataType: 'json',
+                    contentType: "application/json",
+                }
+            ).done(
+                function (resp) {
+                    document.getElementById('PurchaseTable').style.display = 'inline'
+                    if (resp['NULL']) {
+                        document.getElementById('DBDiceAmount').textContent = "0"
+                        document.getElementById('DBDicePrice').textContent = "0"
+                        document.getElementById('DBBeerAmount').textContent = "0"
+                        document.getElementById('DBBeerPrice').textContent = "0"
+                        document.getElementById("DBSum").textContent = "0"
+                    } else {
+                        document.getElementById('DBDiceAmount').textContent = resp['DiceAmount']
+                        document.getElementById('DBDicePrice').textContent = resp['DicePrice']
+                        document.getElementById('DBBeerAmount').textContent = resp['BeerAmount']
+                        document.getElementById('DBBeerPrice').textContent = resp['BeerPrice']
+                        const totaldiceprice = parseInt(document.getElementById("DBDicePrice").textContent);
+                        const totalbeerprice = parseInt(document.getElementById("DBBeerPrice").textContent);
+                        document.getElementById("DBSum").textContent = String(totalbeerprice + totaldiceprice);
+                    }
+                }
+            )
+        }
+    )
+    $("#DBAdd").click(
+        function (){
+            var sId = $("#sId").val();
+            var DiceAmount = $('#diceamount').html();
+            var BeerAmount = $('#beeramount').html();
+            console.log(DiceAmount)
+            var Product = {"sId": sId,"Dice":DiceAmount,"Beer":BeerAmount}
+            document.getElementById('diceamount').textContent="0"
+            document.getElementById('diceprice').textContent="0"
+            document.getElementById('beeramount').textContent="0"
+            document.getElementById('beerprice').textContent="0"
+            document.getElementById('Dice').value="0"
+            document.getElementById('Beer').value="0"
+            document.getElementById('sum').textContent="0"
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: "/Product",
+                    data: JSON.stringify(Product),
+                    dataType: 'json',
+                    contentType: "application/json",
+                }
+            ).done(
+                function (resp) {
+                    document.getElementById('PurchaseTable').style.display = 'inline'
+                    if (resp['NULL']) {
+                        if (resp['typeerror']) {
+                            alert("Number ERROR, DO NOT ENTER MINUS")
+                        }else {
+                            document.getElementById('DBDiceAmount').textContent = "0"
+                            document.getElementById('DBDicePrice').textContent = "0"
+                            document.getElementById('DBBeerAmount').textContent = "0"
+                            document.getElementById('DBBeerPrice').textContent = "0"
+                            document.getElementById("DBSum").textContent = "0"
+                        }
+                    } else {
+                        document.getElementById('DBDiceAmount').textContent = resp['DiceAmount']
+                        document.getElementById('DBDicePrice').textContent = resp['DicePrice']
+                        document.getElementById('DBBeerAmount').textContent = resp['BeerAmount']
+                        document.getElementById('DBBeerPrice').textContent = resp['BeerPrice']
+                        const totaldiceprice = parseInt(document.getElementById("DBDicePrice").textContent);
+                        const totalbeerprice = parseInt(document.getElementById("DBBeerPrice").textContent);
+                        document.getElementById("DBSum").textContent = String(totalbeerprice + totaldiceprice);
+                    }
+                }
+            )
+        }
+    )
+</script>
 </body>
 </html>

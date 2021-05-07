@@ -44,18 +44,19 @@
 </head>
 <body>
 
+<div align="center"border:1px solid; width: 100%; height: 50px;">
+    <input type="date" name="date" id="SpaceDate" value='2021-04-16'>
 
-<input type="date" name="date" id="SpaceDate" value='2021-04-16'>
+    <select name='sType' id="SpaceType">
+        {% for type in Alltypes %}
+        <option>{{ type.sType }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit" class="btn btn-primary" id="GoSearch">Submit</button>
+    <div id="Status" style="display: none">{{Status}}</div>
+    <div id="select">Select your Date "{{ Loginname }}"</div>
+</div>
 
-
-<select name='sType' id="SpaceType">
-    {% for type in Alltypes %}
-    <option>{{ type.sType }}</option>
-    {% endfor %}
-</select>
-
-
-<button type="submit" class="btn btn-primary" id="GoSearch">Submit</button>
 
 
 <form method="POST">
@@ -69,32 +70,34 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
 
-            <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-            </div>
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
 
-            <form method="POST" action='/purchase'>
+            <form method="POST" action='/beforepurchase'>
                 <div class="modal-body">
-                    <input type="hidden" id="UserName" name="UserName"/>
+                    <input type="hidden" id="UserName" name="UserName" />
                     <p id="showUserName"></p>
 
-                    <input type="hidden" id="Date" name="Date"/>
-                    <p id="showDate" name="Date"></p>
+                    <input type="hidden" id="Date" name="Date" />
+                    <p id="showDate" name="Date" ></p>
 
-                    <input type="hidden" id="SType" name="SType"/>
-                    <p id="showSType" name="SType"></p>
+                    <input type="hidden" id="SType" name="SType" />
+                    <p id="showSType" name="SType" ></p>
 
-                    <input type="hidden" id="SName" name="SName"/>
-                    <p id="showSName" name="SName"></p>
+                    <input type="hidden" id="SName" name="SName" />
+                    <p id="showSName" name="SName" ></p>
 
-                    <input type="hidden" id="StartTime" name="StartTime"/>
-                    <p id="showStartTime">開始時間: </p>
+                    <input type = "hidden" id="StartTime" name="StartTime"/>
+                    <p id = "showStartTime">開始時間: </p>
 
                     <div>
-                        <p id="showTotalTime">總時數</p>
+                        <p id = "showTotalTime">總時數</p>
                         <select id="TotalTime" name="TotalTime">
-
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
                         </select>
                     </div>
                 </div>
@@ -110,9 +113,11 @@
 
 <script>
     var table
-
+    Status = document.getElementById('Status').textContent
     $(function () {
-
+        if(Status == "False"){
+            document.getElementById('select').style.display="none"
+        }
     });
 
     $("#GoSearch").click(function () {
@@ -135,13 +140,6 @@
                     $('#table').empty()
                 }
                 setTable(resp)
-
-
-                for (var i = 0; i < 3; i++){
-                    var o = new Option(i, "value");
-                    $("#TotalTime").append(o);
-                }
-
             })
         }
     })
@@ -165,6 +163,7 @@
                     targets: resp.targets,
                     render: function (data, columns, type, row) {
                         var css = data ? 'tb-btn-blue' : 'tb-btn-red';
+
                         return '<input class="tb-btn ' + css + ' " data-toggle="model" href = "#Login" type = "button"></input>'
                         // <a class="btn btn-link" data-toggle="modal" href="#Login">登入</a>
                     }
@@ -173,34 +172,39 @@
         });
 
 
-        $('.tb-btn-blue ').click(function () {
-            var rowData = table.row($(this).parents('tr')).data()
-            var sid = table.cell($(this).parent('td')).data()
-            var time = rowData.time
+        if(Status == "True") {
+            $('.tb-btn-blue ').click(function () {
+                var rowData = table.row($(this).parents('tr')).data()
+                var sid = table.cell($(this).parent('td')).data()
+                var time = rowData.time
 
-            var SearchDate = $("#SpaceDate").val()
-            var SearchType = $("#SpaceType").val()
+                var SearchDate = $("#SpaceDate").val()
+                var SearchType = $("#SpaceType").val()
 
-            $("#Click").modal('show')
+                $("#Click").modal('show')
 
-            $("#UserName").val("鐘聖翔")
-            $("#showUserName").text("使用這名稱: " + "鐘聖翔")
-
-
-            $("#Date").val(SearchDate)
-            $("#showDate").text("日期: " + SearchDate)
+                $("#UserName").val("{{ Loginname }}")
+                $("#showUserName").text("會員名稱: " + "{{ Loginname }}")
 
 
-            $("#SType").val(SearchType)
-            $("#showSType").text("場地類型: " + SearchType)
+                $("#Date").val(SearchDate)
+                $("#showDate").text("日期: " + SearchDate)
 
-            $("#SName").val(sid)
-            $("#showSName").text("場地名稱: 第" + sid + "間")
 
-            $("#StartTime").val(time)
-            $("#showStartTime").text("起始時間: " + time)
+                $("#SType").val(SearchType)
+                $("#showSType").text("場地類型: " + SearchType)
 
-        })
+                $("#SName").val(sid)
+                $("#showSName").text("場地名稱: 第" + sid + "間")
+
+                $("#StartTime").val(time)
+                $("#showStartTime").text("起始時間: " + time)
+
+            })
+        }
+
+
+
 
         $("#Close").click(function () {
             $("#Click").modal('hide')

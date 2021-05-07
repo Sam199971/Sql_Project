@@ -1,4 +1,6 @@
 use SQL_Class;
+SELECT * FROM [USER]
+INSERT INTO [USER] VALUES (2,'bbb','b','b')
 /*
 drop table [Space];
 drop table SpaceTime;
