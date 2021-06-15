@@ -66,9 +66,10 @@ def Purchase():
     #判斷是否已登入
     if session['loggedin'] == True:
         # 從資料庫抓出該會員訂購的包廂
-        cursor.execute("""Select uId,sId ,Date,StartTime 
+        TodayDate = date.today()
+        cursor.execute("""Select uId, sId, Date, StartTime 
         	                    from SpaceTime
-        	                    where  uId = ?""", session['uId'])
+        	                    where  uId = ? and Date > ?""", session['uId'], TodayDate)
         userLog = cursor.fetchall()
         return render_template('purchase.html', userLog=userLog, uId=session['uname'])
     else:
@@ -196,12 +197,13 @@ def FindNullSpace(date, sType):
         d.update([(str(s.sId), str(s.sId)) for s in SpaceNames])
         data.append(d)
 
+
     for s in SpaceNames:  # 每個場地的空閒時間判斷
         cursor.execute("""
             Select *                                             
             From SpaceTime as ST inner join [Space] as S
             on ST.sId = S.[sid]
-            Where Date = ?  and S.sId = ?;
+            Where Date = ?  and S.sId = ? ;
             """, date, s.sId)  # 用sType 跟Date找每個場地找Date 當天的借閱紀錄
         SpaceOfDate_Record = cursor.fetchall()  # 每個場地當天的借閱紀錄 - 陣列裡面放dict
 
@@ -255,8 +257,8 @@ def ReturnPurchase():
                             StartTime, EndTime, UserDetail["TotalTime"], TotalPrice)
         cursor.commit()
 
-        return redirect(url_for('Home'))
-        # return render_template("home.html")
+        # return redirect(url_for('Home'))
+        return render_template("home.html", Loginname=session['uname'], Status=session['loggedin'])
 
 @app.route('/logout') #登出按鈕
 def logout():

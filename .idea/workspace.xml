@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e4213abf-e153-4168-96ee-a830d13f88f2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ERD.drawio" beforeDir="false" afterPath="$PROJECT_DIR$/ERD.drawio" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project.sql" beforeDir="false" afterPath="$PROJECT_DIR$/project.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Search.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Search.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -118,6 +115,10 @@
       <workItem from="1619147058801" duration="1863000" />
       <workItem from="1619661941725" duration="5737000" />
       <workItem from="1619924502710" duration="4402000" />
+      <workItem from="1620377062150" duration="779000" />
+      <workItem from="1621166759364" duration="231000" />
+      <workItem from="1621166993133" duration="4370000" />
+      <workItem from="1621256175185" duration="315000" />
     </task>
     <servers />
   </component>
@@ -138,6 +139,6 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Sql_Project$app.coverage" NAME="app Coverage Results" MODIFIED="1619935366478" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Sql_Project$app.coverage" NAME="app Coverage Results" MODIFIED="1621256178342" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
